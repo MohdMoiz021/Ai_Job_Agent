@@ -1,20 +1,57 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Eye, EyeOff, Mail, Lock, Briefcase } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, Briefcase, AlertCircle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+
+// Hardcoded credentials for demo purposes
+const VALID_CREDENTIALS = [
+  { email: 'admin@example.com', password: 'admin123', name: 'Admin User' },
+  { email: 'user@example.com', password: 'user123', name: 'Demo User' },
+  { email: 'john@example.com', password: 'john123', name: 'John Doe' },
+];
 
 export default function Login() {
+  const router = useRouter();
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login attempt:', formData);
+    setError('');
+    setIsLoading(true);
+
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Check credentials
+    const user = VALID_CREDENTIALS.find(
+      cred => cred.email === formData.email && cred.password === formData.password
+    );
+
+    if (user) {
+      // Use the auth context to login
+      login({
+        email: user.email,
+        name: user.name,
+        isAuthenticated: true
+      });
+      
+      // Redirect to home page
+      router.push('/');
+    } else {
+      setError('Invalid email or password. Please try again.');
+    }
+    
+    setIsLoading(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +59,12 @@ export default function Login() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    // Clear error when user starts typing
+    if (error) setError('');
+  };
+
+  const handleDemoLogin = (email: string, password: string) => {
+    setFormData({ email, password });
   };
 
   return (
@@ -46,7 +89,32 @@ export default function Login() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          {/* Demo Credentials Info */}
+          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Credentials:</h3>
+            <div className="space-y-2 text-xs text-blue-700">
+              {VALID_CREDENTIALS.map((cred, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <span>{cred.email}</span>
+                  <button
+                    onClick={() => handleDemoLogin(cred.email, cred.password)}
+                    className="text-blue-600 hover:text-blue-800 underline"
+                  >
+                    Use
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {error && (
+              <div className="flex items-center space-x-2 p-3 bg-red-50 border border-red-200 rounded-md">
+                <AlertCircle className="h-5 w-5 text-red-500" />
+                <span className="text-sm text-red-700">{error}</span>
+              </div>
+            )}
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email address
@@ -125,9 +193,10 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                disabled={isLoading}
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Sign in
+                {isLoading ? 'Signing in...' : 'Sign in'}
               </button>
             </div>
           </form>

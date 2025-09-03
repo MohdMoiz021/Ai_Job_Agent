@@ -2,10 +2,18 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Menu, X, Briefcase, User, Home, Search } from 'lucide-react';
+import { Menu, X, Briefcase, User, Home, Search, LogOut, UserCircle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    // Redirect to home page
+    window.location.href = '/';
+  };
 
   return (
     <nav className="bg-white shadow-lg">
@@ -34,14 +42,40 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Auth Buttons */}
+          {/* Auth Section */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link href="/login" className="text-gray-700 hover:text-blue-600 transition-colors">
-              Sign In
-            </Link>
-            <Link href="/register" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-              Get Started
-            </Link>
+            {user ? (
+              <div className="relative group">
+                <button className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors">
+                  <UserCircle className="h-5 w-5" />
+                  <span>{user.name}</span>
+                </button>
+                
+                {/* Dropdown Menu */}
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                  <div className="px-4 py-2 text-sm text-gray-700 border-b">
+                    <p className="font-medium">{user.name}</p>
+                    <p className="text-gray-500">{user.email}</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span>Sign out</span>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <Link href="/login" className="text-gray-700 hover:text-blue-600 transition-colors">
+                  Sign In
+                </Link>
+                <Link href="/register" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -71,14 +105,31 @@ export default function Navigation() {
                 <Briefcase className="h-5 w-5" />
                 <span>Upload CV</span>
               </Link>
-              <div className="pt-4 space-y-2">
-                <Link href="/login" className="block text-gray-700 hover:text-blue-600 transition-colors px-3 py-2">
-                  Sign In
-                </Link>
-                <Link href="/register" className="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors mx-3">
-                  Get Started
-                </Link>
-              </div>
+              
+              {user ? (
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="px-3 py-2 text-sm text-gray-700">
+                    <p className="font-medium">{user.name}</p>
+                    <p className="text-gray-500">{user.email}</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-2"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span>Sign out</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="pt-4 space-y-2">
+                  <Link href="/login" className="block text-gray-700 hover:text-blue-600 transition-colors px-3 py-2">
+                    Sign In
+                  </Link>
+                  <Link href="/register" className="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors mx-3">
+                    Get Started
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}

@@ -1,4 +1,5 @@
 import Navigation from '@/components/Navigation';
+import ProtectedContent from '@/components/ProtectedContent';
 import Link from 'next/link';
 import { Upload, Search, Target, Zap, Users, Shield, TrendingUp, Briefcase } from 'lucide-react';
 
@@ -29,6 +30,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Protected Content for Logged-in Users */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <ProtectedContent />
+      </div>
 
       {/* Features Section */}
       <section className="py-20 bg-white">
