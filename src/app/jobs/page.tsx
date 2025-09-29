@@ -45,7 +45,7 @@ const mockJobs: Job[] = [
     skills: ['JavaScript', 'Python', 'React', 'Django'],
     matchScore: 88,
     postedDate: '1 day ago',
-    description: 'Join our fast-growing startup and help build the next big thing...',
+    description: 'Join our fast-growing startup and help build the next big thing with us...',
     isRemote: false,
   },
   {
