@@ -22,7 +22,6 @@ export default function Register() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle registration logic here
     console.log('Registration attempt:', formData);
   };
 
