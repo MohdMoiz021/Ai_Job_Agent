@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Eye, EyeOff, Mail, Lock, Briefcase, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
-// Hardcoded credentials for demo purposes
+
 const VALID_CREDENTIALS = [
   { email: 'admin@example.com', password: 'admin123', name: 'Admin User' },
   { email: 'user@example.com', password: 'user123', name: 'Demo User' },
@@ -29,7 +29,7 @@ export default function Login() {
     setError('');
     setIsLoading(true);
 
-    // Simulate API call delay
+
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Check credentials
