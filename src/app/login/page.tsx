@@ -56,7 +56,6 @@ export default function Login() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    // Clear error when user starts typing
     if (error) setError('');
   };
 
