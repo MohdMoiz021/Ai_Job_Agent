@@ -32,20 +32,17 @@ export default function Login() {
 
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Check credentials
     const user = VALID_CREDENTIALS.find(
       cred => cred.email === formData.email && cred.password === formData.password
     );
 
     if (user) {
-      // Use the auth context to login
       login({
         email: user.email,
         name: user.name,
         isAuthenticated: true
       });
       
-      // Redirect to home page
       router.push('/');
     } else {
       setError('Invalid email or password. Please try again.');
