@@ -303,7 +303,7 @@ export default function Register() {
                 </Link>{' '}
                 and{' '}
                 <Link href="/privacy" className="text-blue-600 hover:text-blue-500">
-                  Privacy Policy
+                  Privacy Policies
                 </Link>
               </label>
             </div>
