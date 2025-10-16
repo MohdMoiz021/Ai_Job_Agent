@@ -40,7 +40,7 @@ export default function ProtectedContent() {
               <Search className="h-12 w-12 text-green-600 mx-auto mb-4 group-hover:scale-110 transition-transform" />
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Browse Jobs</h3>
               <p className="text-gray-600 text-sm">
-                View personalized job recommendations
+                View personalized job recommendation
               </p>
             </div>
           </Link>
