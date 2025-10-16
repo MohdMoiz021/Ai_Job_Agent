@@ -106,7 +106,7 @@ export default function UploadCV() {
               </p>
               <p className="text-gray-500 mb-4">or click to browse files</p>
               <p className="text-sm text-gray-400">
-                Supports PDF, DOC, DOCX, and TXT files (max 10MB)
+                Supports PDF, DOC, DOCX, and TEXT files (max 10MB)
               </p>
             </div>
           ) : (
