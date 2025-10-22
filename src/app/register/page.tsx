@@ -38,7 +38,7 @@ export default function Register() {
         <div className="flex justify-center">
           <Link href="/" className="flex items-center space-x-2">
             <Briefcase className="h-12 w-12 text-blue-600" />
-            <span className="text-3xl font-bold text-gray-900">AI Job Agent</span>
+            <span className="text-3xl font-bold text-gray-900">AI Job Agent Project</span>
           </Link>
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
